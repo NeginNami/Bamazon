@@ -15,13 +15,19 @@ var connection = mysql.createConnection({
   database: "bamazon"
 });
 
+var flag=false;
+
 connection.connect(function(err) {
   if (err) throw err;
   console.log("\n"+"-------------------Connecting to the database----------------------" + "\n");
-  readProducts();
+  showProducts();
+
 });
 
-function readProducts() {
+
+
+
+function showProducts() {
   console.log("Selecting all products...\n");
   connection.query("SELECT item_id, product_name, price FROM product", function(err, res) {
     if (err) throw err;
@@ -36,8 +42,45 @@ function readProducts() {
     	//console.log(res[i].item_id+res[i].product_name+res[i].price);
     }
     console.log(table.toString());
+    console.log("");
+    flag=true;
 
     //console.log(res);
     connection.end();
+    buyProducts();
   });
+ 
+}
+
+function buyProducts() {
+  inquirer
+    .prompt([
+      {
+        name: "itemID",
+        type: "input",
+        message: "What is the item ID you would like to purchase?",
+        validate: function(value) {
+          if (isNaN(value) === false) {
+            return true;
+          }
+          return false;
+        }
+      },
+      {
+        name: "quantity",
+        type: "input",
+        message: "How many units would you like to buy of this product?",
+        validate: function(value) {
+          if (isNaN(value) === false) {
+            return true;
+          }
+          return false;
+        }
+      }
+    
+    ])
+    .then(function(answer) {
+
+      console.log(answer);
+    });
 }
