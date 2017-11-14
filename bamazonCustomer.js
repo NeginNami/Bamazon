@@ -15,7 +15,6 @@ var connection = mysql.createConnection({
   database: "bamazon"
 });
 
-//var flag=false;
 var newQuantity=0;
 var itemPrice=0;
 var itemID="";
@@ -29,8 +28,6 @@ connection.connect(function(err) {
 });
 
 
-
-
 function showProducts() {
   console.log("---------------------Available Products---------------------\n");
   connection.query("SELECT item_id, product_name, price FROM product", function(err, res) {
@@ -40,17 +37,12 @@ function showProducts() {
     head: ['Product ID', 'Product Name', 'Price'],
     colWidths: [20, 20, 20]
 	});
-    for (var i = 0; i < res.length; i++) {
-    	//console.log("item_id: "+res[i].item_id)
+    for (var i = 0; i < res.length; i++) 
+    	
     	table.push([res[i].item_id,res[i].product_name,res[i].price]);
-    	//console.log(res[i].item_id+res[i].product_name+res[i].price);
-    }
+ 
     console.log(table.toString());
     console.log("");
-    //flag=true;
-
-    //console.log(res);
-    //connection.end();
     buyProducts();
   });
  
@@ -85,20 +77,19 @@ function buyProducts() {
     ])
     .then(function(answer) {
     	
-    	console.log("\n------------------------Transaction has been made------------------------------");
+    	
     	connection.query("SELECT item_id, product_name, price, stock_quantity FROM product WHERE ?",
     	{
     		item_id: answer.itemID
     	},
     	function (err,res) {
-    		//console.log(res);
     		
     		if (res[0].stock_quantity>=answer.quantity) {
-    		
+    			console.log("\n------------------------Transaction has been made------------------------------");
     			updateQuantity(res[0].item_id,answer.quantity);
-    			//receipt();
     		}
     		else {
+    			console.log("");
     			console.log("Sorry! Insufficient quantity!");
     			connection.end();
     		}
@@ -106,13 +97,10 @@ function buyProducts() {
     	}
 
     	);
-
-      //console.log(answer);
     });
 }
 
 function updateQuantity(id,quantity) {
-	//console.log(parseInt(quantity)+1);
 	
 	connection.query("SELECT * FROM product WHERE ?",
 		{
@@ -120,11 +108,10 @@ function updateQuantity(id,quantity) {
 		},
 		function (err,res) {
 			newQuantity=res[0].stock_quantity-parseInt(quantity);
-			//console.log(newQuantity);
 			itemPrice=res[0].price;
 			itemName=res[0].product_name;
 			itemId=res[0].item_id;
-			//itemQuant=res[0].stock_quantity;
+		
 			connection.query("UPDATE product SET ? WHERE ?",
 			[
 				{
