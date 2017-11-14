@@ -18,7 +18,7 @@ Here are some pictures of the database structure that you should be able to see 
 
 As soon as you run the program from your terminal, you would see the different products information such as product name, product id and prices. Then it would ask you to enter the id of the product that you want to buy also the wanted quantity. When you hit enter, program checks the database for that item and the wanted quantity. If there is enough of that item it subtracts its related quantity with a new number which is oldQuantity-askedQuantity then shows you your receipt. If there is no enough of that item, the programs tells you that there are not enough of that product, so the purchasing process does not go through. 
 Here are some screenshots that shows how it works. 
-![Image of successful transaction](https://github.com/NeginNami/Bamazon/blob/master/images/successfulTrans.png)
+![Image of successful transaction](https://github.com/NeginNami/Bamazon/blob/master/images/suc.png)
 
 ## Deployment
 
