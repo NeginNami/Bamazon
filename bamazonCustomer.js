@@ -15,9 +15,12 @@ var connection = mysql.createConnection({
   database: "bamazon"
 });
 
-var flag=false;
+//var flag=false;
 var newQuantity=0;
 var itemPrice=0;
+var itemID="";
+var itemName="";
+
 connection.connect(function(err) {
   if (err) throw err;
   console.log("\n"+"-------------------Connecting to the database----------------------" + "\n");
@@ -29,7 +32,7 @@ connection.connect(function(err) {
 
 
 function showProducts() {
-  console.log("Selecting all products...\n");
+  console.log("---------------------Available Products---------------------\n");
   connection.query("SELECT item_id, product_name, price FROM product", function(err, res) {
     if (err) throw err;
     //setting up a table for showing the products
@@ -44,7 +47,7 @@ function showProducts() {
     }
     console.log(table.toString());
     console.log("");
-    flag=true;
+    //flag=true;
 
     //console.log(res);
     //connection.end();
@@ -88,21 +91,23 @@ function buyProducts() {
     		item_id: answer.itemID
     	},
     	function (err,res) {
-    		console.log(res);
+    		//console.log(res);
     		
     		if (res[0].stock_quantity>=answer.quantity) {
     		
     			updateQuantity(res[0].item_id,answer.quantity);
     			//receipt();
     		}
-    		else
+    		else {
     			console.log("Sorry! Insufficient quantity!");
+    			connection.end();
+    		}
     		
     	}
 
     	);
 
-      console.log(answer);
+      //console.log(answer);
     });
 }
 
@@ -117,6 +122,9 @@ function updateQuantity(id,quantity) {
 			newQuantity=res[0].stock_quantity-parseInt(quantity);
 			//console.log(newQuantity);
 			itemPrice=res[0].price;
+			itemName=res[0].product_name;
+			itemId=res[0].item_id;
+			//itemQuant=res[0].stock_quantity;
 			connection.query("UPDATE product SET ? WHERE ?",
 			[
 				{
@@ -128,8 +136,15 @@ function updateQuantity(id,quantity) {
 			],
 			function (err,res) {
 				console.log("----------------------Database updated!------------------------");
+			    var table = new Table({
+			    head: ['Product ID', 'Product Name', 'Price','Stock Quantity'],
+			    colWidths: [20, 20, 20, 20]
+				});
+				table.push([itemId,itemName,itemPrice,newQuantity]);
+				console.log(table.toString());
 				console.log("----------------------Your Receipt------------------------");
 				console.log("Total: "+itemPrice*quantity);
+				connection.end();
 			}
 			); 
 
@@ -137,7 +152,5 @@ function updateQuantity(id,quantity) {
 	);
 }
 
-function receipt() {
-	console.log("Heeeeeeleeee");
-}
+
 
