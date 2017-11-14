@@ -16,7 +16,8 @@ var connection = mysql.createConnection({
 });
 
 var flag=false;
-
+var newQuantity=0;
+var itemPrice=0;
 connection.connect(function(err) {
   if (err) throw err;
   console.log("\n"+"-------------------Connecting to the database----------------------" + "\n");
@@ -46,7 +47,7 @@ function showProducts() {
     flag=true;
 
     //console.log(res);
-    connection.end();
+    //connection.end();
     buyProducts();
   });
  
@@ -80,7 +81,63 @@ function buyProducts() {
     
     ])
     .then(function(answer) {
+    	
+    	console.log("\n------------------------Transaction has been made------------------------------");
+    	connection.query("SELECT item_id, product_name, price, stock_quantity FROM product WHERE ?",
+    	{
+    		item_id: answer.itemID
+    	},
+    	function (err,res) {
+    		console.log(res);
+    		
+    		if (res[0].stock_quantity>=answer.quantity) {
+    		
+    			updateQuantity(res[0].item_id,answer.quantity);
+    			//receipt();
+    		}
+    		else
+    			console.log("Sorry! Insufficient quantity!");
+    		
+    	}
+
+    	);
 
       console.log(answer);
     });
 }
+
+function updateQuantity(id,quantity) {
+	//console.log(parseInt(quantity)+1);
+	
+	connection.query("SELECT * FROM product WHERE ?",
+		{
+			item_id: id
+		},
+		function (err,res) {
+			newQuantity=res[0].stock_quantity-parseInt(quantity);
+			//console.log(newQuantity);
+			itemPrice=res[0].price;
+			connection.query("UPDATE product SET ? WHERE ?",
+			[
+				{
+					stock_quantity: newQuantity
+				},
+				{
+					item_id: id
+				}
+			],
+			function (err,res) {
+				console.log("----------------------Database updated!------------------------");
+				console.log("----------------------Your Receipt------------------------");
+				console.log("Total: "+itemPrice*quantity);
+			}
+			); 
+
+		}
+	);
+}
+
+function receipt() {
+	console.log("Heeeeeeleeee");
+}
+
