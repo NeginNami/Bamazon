@@ -1,32 +1,35 @@
 # :moneybag: Bamazon :credit_card:
 
-Bamazon is an Amazon-like storefront which uses MySQL database to store the information about its products. The app will take in orders from customers and deplete stock from the store's inventory. 
+Bamazon is an Amazon-like storefront which uses MySQL database to store the information about its products. The app will take in orders from customers and deplete stock from the store's inventory.
 
-### Getting Started 
+## Getting Started
 
 Clone the repo to your computer. Go to your terminal and navigate to the repo folder. Then type "npm install" then enter. This command installs all the modules you need to run the program.
 
 ## Prerequisites & Installing
 
-Bamazon is a server side node.js application, therefore you need to run it from your terminal. Depend on which OS you are using that can be different. Here is a guide about how to run a node.js app on your computer if you are using windows: http://blog.gvm-it.eu/post/20404719601/getting-started-with-nodejs-on-windows. If you are using mac that would be easier. Just go to your terminal and navigate to the Bamazon folder. Then you need to download and install all the node modules that are used in this application. So type "npm install" then hit enter. That would install the needed modules based on package.json file which is availabe on the app folder.
+Bamazon is a server side node.js application, therefore you need to run it from your terminal. Depend on which OS you are using that can be different. Here is a guide about how to run a node.js app on your computer if you are using windows:
+
+[Link to Tutorial](http://blog.gvm-it.eu/post/20404719601/getting-started-with-nodejs-on-windows)
+
+If you are using mac that would be easier. Just go to your terminal and navigate to the Bamazon folder. Then you need to download and install all the node modules that are used in this application. So type "npm install" then hit enter. That would install the needed modules based on package.json file which is availabe on the app folder.
 Also because Bamazon uses Mysql database, you need to set up a database called bamazon which has a table in it called product. In order to do that you need to have mysql intalled on your computer. If you use windows you can download Mysql workbench from here: https://dev.mysql.com/downloads/workbench/. If you are a mac user you can download the Sequel pro from here: https://www.sequelpro.com/. As soon as you get the mysql database installed, you can import the schema file that I made (https://github.com/NeginNami/Bamazon/blob/master/bamazonCustomerSchema.sql) into your mysql database to get the bamazon database ready to work. 
-Here are some pictures of the database structure that you should be able to see in your mysql database after importing the schema file: 
+Here are some pictures of the database structure that you should be able to see in your mysql database after importing the schema file:
 
-![Image of db](https://github.com/NeginNami/Bamazon/blob/master/images/db.png)
+![Image of db](images/db.png)
 
- 
 ### Running and test
 
-As soon as you run the program from your terminal, you would see the different products information such as product name, product id and prices. Then it would ask you to enter the id of the product that you want to buy also the wanted quantity. When you hit enter, program checks the database for that item and the wanted quantity. If there is enough of that item it subtracts its related quantity with a new number which is oldQuantity-askedQuantity then shows you your receipt. If there is no enough of that item, the programs tells you that there are not enough of that product, so the purchasing process does not go through. 
-Here are some screenshots that shows how it works. 
+As soon as you run the program from your terminal, you would see the different products information such as product name, product id and prices. Then it would ask you to enter the id of the product that you want to buy also the wanted quantity. When you hit enter, program checks the database for that item and the wanted quantity. If there is enough of that item it subtracts its related quantity with a new number which is oldQuantity-askedQuantity then shows you your receipt. If there is no enough of that item, the programs tells you that there are not enough of that product, so the purchasing process does not go through.
+Here are some screenshots that shows how it works.
 
-![Image of successful transaction](https://github.com/NeginNami/Bamazon/blob/master/images/successfulTrans.png)
+![Image of successful transaction](images/successfulTrans.png)
 
-![Image of Failed transaction](https://github.com/NeginNami/Bamazon/blob/master/images/failedTrans.png)
+![Image of Failed transaction](images/failedTrans.png)
 
 ## Deployment
 
-This application is not deployed on the web. To run this locally you need to go to your terminal and run the program from there. For more information about how to do that, read the app description, Prerequisites & Installing and Running and test section on this file. 
+This application is not deployed on the web. To run this locally you need to go to your terminal and run the program from there. For more information about how to do that, read the app description, Prerequisites & Installing and Running and test section on this file.
 
 ## Built With
 
